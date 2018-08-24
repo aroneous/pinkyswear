@@ -40,13 +40,23 @@ class Prom {
     var nextSuccess = true;
     if (success) {
       if (this._successAction) {
-        result = this._successAction(value);
+        try {
+          result = this._successAction(value);
+        } catch (err) {
+          result = err;
+          nextSuccess = false;
+        }
       } else {
         result = value;
       }
     } else {
       if (this._errAction) {
-        result = this._errAction(value);
+        try {
+          result = this._errAction(value);
+        } catch (err) {
+          result = err;
+          nextSuccess = false;
+        }
       } else {
         result = value;
         nextSuccess = false;
